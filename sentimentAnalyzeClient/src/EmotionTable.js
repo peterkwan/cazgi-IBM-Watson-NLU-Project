@@ -8,7 +8,7 @@ class EmotionTable extends React.Component {
     componentDidMount() {
         let emotions = [];
         this.props.emotions.map(e => {
-            Object.entries(e.emotion).map((e1) => {
+            return Object.entries(e.emotion).map(e1 => {
                 let emotion = e1[0];
                 let confidence = e1[1];
 
@@ -18,7 +18,8 @@ class EmotionTable extends React.Component {
                 else {
                     emotions[emotion] = confidence / this.props.emotions.length;
                 }
-            })
+                return emotions;
+            });
         });
         this.setState({emotionList:Object.entries(emotions).map((e) => {
             return <tr><td>{e[0]}</td><td>{e[1].toFixed(6)}</td></tr>
