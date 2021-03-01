@@ -2,16 +2,35 @@ import React from 'react';
 import './bootstrap.min.css';
 
 class EmotionTable extends React.Component {
+
+    state = {emotionList: []}
+
+    componentDidMount() {
+        let emotions = [];
+        this.props.emotions.map(e => {
+            Object.entries(e.emotion).map((e1) => {
+                let emotion = e1[0];
+                let confidence = e1[1];
+
+                if (emotion in emotions) {
+                    emotions[emotion] += confidence / this.props.emotions.length;
+                }
+                else {
+                    emotions[emotion] = confidence / this.props.emotions.length;
+                }
+            })
+        });
+        this.setState({emotionList:Object.entries(emotions).map((e) => {
+            return <tr><td>{e[0]}</td><td>{e[1].toFixed(6)}</td></tr>
+        })});
+    }
+
     render() {
       return (  
         <div>
-          {/*You can remove this line and the line below. */}
-          {JSON.stringify(this.props.emotions)}
           <table className="table table-bordered">
             <tbody>
-            {
-                //Write code to use the .map method that you worked on in the Hands-on React lab to extract the emotions
-            }
+                { this.state.emotionList }
             </tbody>
           </table>
           </div>
